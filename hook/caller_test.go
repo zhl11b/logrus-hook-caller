@@ -28,13 +28,17 @@ func TestCaller(t *testing.T) {
 
 func BenchmarkCaller(b *testing.B) {
 	// init
+	filepath := "test_caller.log"
 	logrus.AddHook(&CallerHook{})
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{})
-	fd, err := os.OpenFile("./test_caller.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+	fd, err := os.OpenFile(filepath, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		panic("open logfile failed!")
 	}
+	defer os.Remove(filepath)
+	defer fd.Close()
+
 	logrus.SetOutput(fd)
 
 	// test
@@ -45,13 +49,16 @@ func BenchmarkCaller(b *testing.B) {
 
 func BenchmarkWithField(b *testing.B) {
 	// init
+	filepath := "test_caller.log"
 	logrus.AddHook(&CallerHook{})
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{})
-	fd, err := os.OpenFile("./test_caller.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+	fd, err := os.OpenFile(filepath, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		panic("open logfile failed!")
 	}
+	defer os.Remove(filepath)
+	defer fd.Close()
 	logrus.SetOutput(fd)
 
 	// test
@@ -62,13 +69,16 @@ func BenchmarkWithField(b *testing.B) {
 
 func BenchmarkWithFields(b *testing.B) {
 	// init
+	filepath := "test_caller.log"
 	logrus.AddHook(&CallerHook{})
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{})
-	fd, err := os.OpenFile("./test_caller.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+	fd, err := os.OpenFile(filepath, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		panic("open logfile failed!")
 	}
+	defer os.Remove(filepath)
+	defer fd.Close()
 	logrus.SetOutput(fd)
 
 	// test
