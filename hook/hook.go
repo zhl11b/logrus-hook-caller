@@ -15,10 +15,10 @@ type CallerHook struct {
 
 // Fire 实现
 func (hook *CallerHook) Fire(entry *logrus.Entry) error {
-	if len(entry.Data) == 0 {
-		entry.Data["caller"] = hook.caller2()
-	} else {
-		entry.Data["caller"] = hook.caller()
+	if len(entry.Data) == 0 { // if don't use withfields
+		entry.Data["caller"] = hook.caller(7)
+	} else { // if use withfields
+		entry.Data["caller"] = hook.caller(5)
 	}
 
 	return nil
@@ -37,17 +37,8 @@ func (hook *CallerHook) Levels() []logrus.Level {
 }
 
 // caller 带withfields的函数调用
-func (hook *CallerHook) caller() string {
-	if _, file, line, ok := runtime.Caller(5); ok {
-		return strings.Join([]string{filepath.Base(file), strconv.Itoa(line)}, ":")
-	}
-	// not sure what the convention should be here
-	return "???"
-}
-
-// caller2 不带withfields的函数调用
-func (hook *CallerHook) caller2() string {
-	if _, file, line, ok := runtime.Caller(7); ok {
+func (hook *CallerHook) caller(skip int) string {
+	if _, file, line, ok := runtime.Caller(skip); ok {
 		return strings.Join([]string{filepath.Base(file), strconv.Itoa(line)}, ":")
 	}
 	// not sure what the convention should be here
