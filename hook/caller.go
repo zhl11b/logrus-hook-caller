@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // CallerHook 需要的钩子
@@ -20,9 +20,9 @@ func (hook *CallerHook) Fire(entry *logrus.Entry) error {
 		delta = -1
 	}
 	if len(entry.Data)+delta == 0 { // if don't use withfields
-		entry.Data["caller"] = hook.caller(7)
+		entry.Data["caller"] = hook.caller(9)
 	} else { // if use withfields
-		entry.Data["caller"] = hook.caller(6)
+		entry.Data["caller"] = hook.caller(7)
 	}
 	return nil
 }
